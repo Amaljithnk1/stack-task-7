@@ -77,12 +77,35 @@ const Auth = () => {
             <input type="password" name="password"  id="password"  value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
+                
               }}
             />
+            {isSignup && <p style={{color:"#666767", fontSize:"13px"}}>Password must contain at least eight<br/>characters,including at least 1 letter and 1<br/> number.</p>}
+            
           </label>
+          {
+
+            isSignup && (
+            <label htmlFor='check'>
+              <input type="checkbox"  id = 'check' className="checkbox-input"/>
+              <p style={{fontSize:"13px"}}>Opt-in to receive occasional,<br/>product updates, user research invitations,<br/>company announcements, and digests.</p>
+
+            </label>
+            )
+          }
           <button type="submit" className="auth-btn">
             {isSignup ? "Sign up" : "Log in"}
           </button>
+          {
+            isSignup && (
+              <p style={{color:"#666767", fontSize:"13px"}}>
+                By clicking "Sign up", you agree to our  
+                <span style={{color:"#007ac6"}}>  terms of <br/>service</span>,
+                <span style={{color:"#007ac6"}}> privacy policy</span> and 
+                <span style={{color:"#007ac6"}}> cookie policy</span>
+              </p>
+            )
+          }
         </form>
         <p>
           {isSignup ? "Already have an account?" : "Don't have an account?"}
