@@ -13,7 +13,16 @@ import answerRoutes from "./routes/Answers.js";
 const app = express();
 app.use(express.json({ limit: "30mb", extended: true }))
 app.use(express.urlencoded({ limit: "30mb", extended: true }))
-app.use(cors());
+
+const corsOptions = {
+  origin: "https://stack-overflowe.netlify.app",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 
 app.get('/',(req, res) => {
     res.send("This is a stack overflow clone API")
