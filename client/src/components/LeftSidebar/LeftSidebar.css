@@ -55,8 +55,13 @@
   
   @media screen and (max-width: 760px) {
     .left-sidebar {
-      position: absolute;
-      transform: translateX(-100%);
-      z-index: 10;
+      display: block;
+      width: 25%;
+    }
+    body {
+      font-size: 14px; 
     }
   }
+  
+
+  

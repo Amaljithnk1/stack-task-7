@@ -1,22 +1,44 @@
-import React, { useState } from "react";
+// UserProfile.jsx
+
+import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBirthdayCake, faPen } from "@fortawesome/free-solid-svg-icons";
+import { faBirthdayCake, faPen, faClock } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 
 import LeftSidebar from "../../components/LeftSidebar/LeftSidebar";
 import Avatar from "../../components/Avatar/Avatar";
 import EditProfileForm from "./EditProfileForm";
 import ProfileBio from "./ProfileBio";
+import { getLoginHistory } from "../../api";
 import "./UsersProfile.css";
 
 const UserProfile = ({ slideIn, handleSlideIn }) => {
   const { id } = useParams();
   const users = useSelector((state) => state.usersReducer);
-  const currentProfile = users.filter((user) => user._id === id)[0];
+  const currentProfile = users.find((user) => user._id === id);
   const currentUser = useSelector((state) => state.currentUserReducer);
-  const [Switch, setSwitch] = useState(false);
+  const [loginHistory, setLoginHistory] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [loginHistoryVisible, setLoginHistoryVisible] = useState(false);
+
+  useEffect(() => {
+    const fetchLoginHistory = async () => {
+      try {
+        const response = await getLoginHistory(id);
+        setLoginHistory(response.data);
+      } catch (error) {
+        console.error('Error fetching login history:', error);
+      }
+    };
+
+    fetchLoginHistory();
+  }, [id]);
+
+  const setSwitch = (value) => {
+    setIsEditing(value);
+  };
 
   return (
     <div className="home-container-1">
@@ -42,24 +64,53 @@ const UserProfile = ({ slideIn, handleSlideIn }) => {
                 </p>
               </div>
             </div>
-            {currentUser?.result._id === id && (
-              <button
-                type="button"
-                onClick={() => setSwitch(true)}
-                className="edit-profile-btn"
-              >
-                <FontAwesomeIcon icon={faPen} /> Edit Profile
-              </button>
-            )}
+            <div className="user-actions">
+              {currentUser?.result._id === id && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setSwitch(true)}
+                    className="edit-profile-btn"
+                  >
+                    <FontAwesomeIcon icon={faPen} /> Edit Profile
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setLoginHistoryVisible(!loginHistoryVisible)}
+                    className="view-login-history-btn"
+                  >
+                    <FontAwesomeIcon icon={faClock} /> View Login History
+                  </button>
+                </>
+              )}
+            </div>
           </div>
           <>
-            {Switch ? (
+            {isEditing ? (
               <EditProfileForm
                 currentUser={currentUser}
                 setSwitch={setSwitch}
               />
             ) : (
-              <ProfileBio currentProfile={currentProfile} />
+              <>
+                <ProfileBio currentProfile={currentProfile} />
+                {loginHistoryVisible && (
+                  <div className="login-history-container">
+                    <h3>Login History</h3>
+                    <ul>
+                      {loginHistory.map((login) => (
+                        <li key={login._id}>
+                          <p>Login Time: {moment(login.login_time).format('LLLL')}</p>
+                          <p>Browser: {login.browser}</p>
+                          <p>Operating System: {login.operating_system}</p>
+                          <p>Device Type: {login.device_type}</p>
+                          <p>IP Address: {login.ip_address}</p>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </>
             )}
           </>
         </section>

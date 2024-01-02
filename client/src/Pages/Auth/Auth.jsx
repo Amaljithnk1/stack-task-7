@@ -38,6 +38,11 @@ const Auth = () => {
     }
   };
 
+  // const handleForgotPassword = () => {
+
+  //   alert("")
+  // }
+
   return (
     <section className="auth-section">
       {isSignup && <AboutAuth />}
