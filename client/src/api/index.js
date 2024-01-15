@@ -1,6 +1,13 @@
-//  hellloooooooooooooo
-
 import axios from "axios";
+
+const getTextColorBasedOnBackground = (backgroundColor) => {
+  const rgb = parseInt(backgroundColor.substring(1), 16);
+  const r = (rgb >> 16) & 0xff;
+  const g = (rgb >> 8) & 0xff;
+  const b = (rgb >> 0) & 0xff;
+  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
+  return luminance > 128 ? "dark" : "light";
+};
 
 const API = axios.create({ baseURL: "http://localhost:5000" });
 
@@ -13,6 +20,15 @@ API.interceptors.request.use((req) => {
 
 export const logIn = (authData) => API.post("/user/login", authData);
 export const signUp = (authData) => API.post("/user/signup", authData);
+
+// New function for forgot password
+export const forgotPassword = (email) => API.post("/user/forgotpassword", { email: email });
+
+
+// New function for reset password
+export const resetPassword = (token, newPassword) => API.post(`/user/resetpassword/${token}`, { newPassword: newPassword });
+
+// Existing functions for Q5, Q11, Q12
 export const postQuestion = (questionData) => API.post("/questions/Ask", questionData);
 export const getAllQuestions = () => API.get("/questions/get");
 export const deleteQuestion = (id) => API.delete(`/questions/delete/${id}`);
@@ -39,15 +55,6 @@ export const getWeather = async (latitude, longitude) => {
   }
 };
 
-const getTextColorBasedOnBackground = (backgroundColor) => {
-  const rgb = parseInt(backgroundColor.substring(1), 16);
-  const r = (rgb >> 16) & 0xff;
-  const g = (rgb >> 8) & 0xff;
-  const b = (rgb >> 0) & 0xff;
-  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-  return luminance > 128 ? "dark" : "light";
-};
-
 export const fetchUserDataWithWeather = async (userId) => {
   try {
     const userResponse = await API.get(`/user/${userId}`);
@@ -57,6 +64,7 @@ export const fetchUserDataWithWeather = async (userId) => {
     );
 
     const textColor = getTextColorBasedOnBackground(weatherResponse.current.condition.rgb);
+    
 
     return { user: userResponse.data, weather: weatherResponse, textColor };
   } catch (error) {
@@ -64,5 +72,8 @@ export const fetchUserDataWithWeather = async (userId) => {
     throw error;
   }
 };
+
+// New function for reset password email
+export const sendResetEmail = (email) => API.post("/user/send-reset-email", { email });
 
 export default API;

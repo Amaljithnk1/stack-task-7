@@ -1,7 +1,7 @@
-// Import necessary modules and the User model
+// routes/users.js
 import express from 'express';
 import User from '../models/auth.js';
-import { login, signup } from '../controllers/auth.js';
+import { login, signup, forgotPassword, resetPassword } from '../controllers/auth.js';
 import { getAllUsers, updateProfile } from '../controllers/users.js';
 import auth from '../middleware/auth.js';
 
@@ -25,6 +25,10 @@ router.get('/:id/login-history', async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 });
+
+// New routes for forgot password and reset password
+router.post('/forgotpassword', forgotPassword);
+router.post('/resetpassword/:token', resetPassword);
 
 // Other routes for login, signup, getAllUsers, and updateProfile
 router.post('/signup', signup);

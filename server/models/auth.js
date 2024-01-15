@@ -1,4 +1,3 @@
-
 import mongoose from "mongoose";
 
 const loginHistorySchema = new mongoose.Schema({
@@ -16,7 +15,9 @@ const userSchema = new mongoose.Schema({
   about: { type: String },
   tags: { type: [String] },
   joinedOn: { type: Date, default: Date.now },
-  loginHistory: [loginHistorySchema], 
+  loginHistory: [loginHistorySchema],
+  resetToken: String,
+  resetExpires: Date,
 });
 
 const User = mongoose.model("User", userSchema);

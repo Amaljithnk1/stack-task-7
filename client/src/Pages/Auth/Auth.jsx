@@ -1,11 +1,11 @@
-import React, { useState } from "react"
-import { useDispatch } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate, Link } from "react-router-dom";
 
-import "./Auth.css"
-import icon from "../../assets/icon.png"
-import AboutAuth from "./AboutAuth"
-import { signup, login } from "../../actions/auth"
+import "./Auth.css";
+import icon from "../../assets/icon.png";
+import AboutAuth from "./AboutAuth";
+import { signup, login } from "../../actions/auth";
 
 const Auth = () => {
   const [isSignup, setIsSignup] = useState(false);
@@ -17,10 +17,10 @@ const Auth = () => {
   const navigate = useNavigate();
 
   const handleSwitch = () => {
-    setIsSignup(!isSignup)
-    setName("")
-    setEmail("")
-    setPassword("")
+    setIsSignup(!isSignup);
+    setName("");
+    setEmail("");
+    setPassword("");
   };
 
   const handleSubmit = (e) => {
@@ -37,11 +37,6 @@ const Auth = () => {
       dispatch(login({ email, password }, navigate));
     }
   };
-
-  // const handleForgotPassword = () => {
-
-  //   alert("")
-  // }
 
   return (
     <section className="auth-section">
@@ -65,7 +60,12 @@ const Auth = () => {
           )}
           <label htmlFor="email">
             <h4>Email</h4>
-            <input  type="email"  name="email"  id="email" value={email} onChange={(e) => {
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={email}
+              onChange={(e) => {
                 setEmail(e.target.value);
               }}
             />
@@ -74,47 +74,49 @@ const Auth = () => {
             <div style={{ display: "flex", justifyContent: "space-between" }}>
               <h4>Password</h4>
               {!isSignup && (
-                <p style={{ color: "#007ac6", fontSize: "13px" }}>
+                <Link to="/ForgotPassword" style={{ color: "#007ac6", fontSize: "13px" }}>
                   forgot password?
-                </p>
+                </Link>
               )}
             </div>
-            <input type="password" name="password"  id="password"  value={password}
+            <input
+              type="password"
+              name="password"
+              id="password"
+              value={password}
               onChange={(e) => {
                 setPassword(e.target.value);
-                
               }}
             />
-            {isSignup && <p style={{color:"#666767", fontSize:"13px"}}>Password must contain at least eight<br/>characters,including at least 1 letter and 1<br/> number.</p>}
-            
+            {isSignup && (
+              <p style={{ color: "#666767", fontSize: "13px" }}>
+                Password must contain at least eight<br />characters, including at least 1 letter and 1<br /> number.
+              </p>
+            )}
           </label>
-          {
-
-            isSignup && (
-            <label htmlFor='check'>
-              <input type="checkbox"  id = 'check' className="checkbox-input"/>
-              <p style={{fontSize:"13px"}}>Opt-in to receive occasional,<br/>product updates, user research invitations,<br/>company announcements, and digests.</p>
-
+          {isSignup && (
+            <label htmlFor="check">
+              <input type="checkbox" id="check" className="checkbox-input" />
+              <p style={{ fontSize: "13px" }}>
+                Opt-in to receive occasional,<br />product updates, user research invitations,<br />company announcements, and digests.
+              </p>
             </label>
-            )
-          }
+          )}
           <button type="submit" className="auth-btn">
             {isSignup ? "Sign up" : "Log in"}
           </button>
-          {
-            isSignup && (
-              <p style={{color:"#666767", fontSize:"13px"}}>
-                By clicking "Sign up", you agree to our  
-                <span style={{color:"#007ac6"}}>  terms of <br/>service</span>,
-                <span style={{color:"#007ac6"}}> privacy policy</span> and 
-                <span style={{color:"#007ac6"}}> cookie policy</span>
-              </p>
-            )
-          }
+          {isSignup && (
+            <p style={{ color: "#666767", fontSize: "13px" }}>
+              By clicking "Sign up", you agree to our{" "}
+              <span style={{ color: "#007ac6" }}>terms of <br />service</span>,
+              <span style={{ color: "#007ac6" }}> privacy policy</span> and
+              <span style={{ color: "#007ac6" }}> cookie policy</span>
+            </p>
+          )}
         </form>
         <p>
           {isSignup ? "Already have an account?" : "Don't have an account?"}
-          <button type="button" className="handle-switch-btn" onClick={handleSwitch} >
+          <button type="button" className="handle-switch-btn" onClick={handleSwitch}>
             {isSignup ? "Log in" : "sign up"}
           </button>
         </p>
