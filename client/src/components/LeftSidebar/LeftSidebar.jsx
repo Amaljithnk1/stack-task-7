@@ -45,6 +45,8 @@ const LeftSidebar = ({ slideIn, handleSlideIn }) => {
               style={{ paddingLeft: "40px" }}
             >
               <p>Tags</p>
+
+              
             </NavLink>
           </button>
           
@@ -56,6 +58,12 @@ const LeftSidebar = ({ slideIn, handleSlideIn }) => {
             >
               <p>Users</p>
             </NavLink>
+
+            <button onClick={() => handleSlideIn()} className="nav-btn">
+            <NavLink to="/PublicSpace" className="side-nav-links" activeClassName="active" style={{ paddingLeft: "40px" }}>
+              <p>PublicSpace</p>
+            </NavLink>
+            </button>
           
         </div>
       </nav>

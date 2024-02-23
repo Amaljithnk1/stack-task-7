@@ -53,6 +53,8 @@
     border-right: solid 3px #ef8236;
   }
   
+  
+  
   @media screen and (max-width: 760px) {
     .left-sidebar {
       display: block;

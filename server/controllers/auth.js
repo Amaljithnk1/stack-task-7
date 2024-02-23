@@ -1,4 +1,3 @@
-// controllers/auth.js
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import User from "../models/auth.js";
@@ -114,8 +113,6 @@ export const forgotPassword = async (req, res) => {
     const resetLink = `http://localhost:3000/reset-password/${resetToken}`;
     const emailBody = `Click the following link to reset your password: ${resetLink}`;
     
-    require('dotenv').config(); // Load environment variables from .env file
-
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {

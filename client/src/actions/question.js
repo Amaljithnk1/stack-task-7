@@ -1,5 +1,6 @@
+// actions/question.js
+
 import * as api from "../api/index";
-import React from "react";
 
 export const askQuestion = (questionData, navigate) => async (dispatch) => {
   try {
@@ -10,16 +11,16 @@ export const askQuestion = (questionData, navigate) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-export const fetchAllQuestions = () => async (disptach) => {
+export const fetchAllQuestions = () => async (dispatch) => {
   try {
     const { data } = await api.getAllQuestions();
-    disptach({ type: "FETCH_ALL_QUESTIONS", payload: data });
+    dispatch({ type: "FETCH_ALL_QUESTIONS", payload: data });
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 export const deleteQuestion = (id, navigate) => async (dispatch) => {
   try {
@@ -42,8 +43,8 @@ export const voteQuestion = (id, value) => async (dispatch) => {
 
 export const postAnswer = (answerData) => async (dispatch) => {
   try {
-    const { id, noOfAnswers, answerBody, userAnswered } = answerData;
-    const { data } = await api.postAnswer( id, noOfAnswers, answerBody, userAnswered);
+    const { id, noOfAnswers, answerBody, userAnswered, bold, italic, codeBlock } = answerData;
+    const { data } = await api.postAnswer(id, noOfAnswers, answerBody, userAnswered, bold, italic, codeBlock);
     dispatch({ type: "POST_ANSWER", payload: data });
     dispatch(fetchAllQuestions());
   } catch (error) {
@@ -58,4 +59,4 @@ export const deleteAnswer = (id, answerId, noOfAnswers) => async (dispatch) => {
   } catch (error) {
     console.log(error);
   }
-}
+};

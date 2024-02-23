@@ -1,0 +1,49 @@
+/* Styling for the chat container */
+.chat-1 {
+    min-height: 100vh;
+    max-width: 1250px;
+    width: 100%;
+    display: flex;
+    
+    justify-content: space-between;
+    margin: 0% auto;
+    overflow-x: hidden;
+  }
+  
+  /* Styling for the chat content container */
+  .chat-2 {
+    max-width: 1100px;
+    width: calc(100% - 164px);
+    padding: 24px;
+    box-sizing: border-box;
+   
+  }
+  
+
+    /* Styling for the form container */
+    .form {
+      position: fixed;
+      margin-bottom:20px;
+      bottom:0;
+      
+      width: calc(100% - 330px);
+      
+     
+      
+    }
+  /* Styling for the input */
+  .form input[type="text"] {
+    padding: 10px;
+    width: calc(100% - 100px);
+
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+
+  .icon {
+    position: relative;
+    top: 100%;
+    right: 30px; /* Adjust as needed */
+    
+}

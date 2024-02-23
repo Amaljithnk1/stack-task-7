@@ -1,29 +1,12 @@
 import axios from "axios";
 
-const getTextColorBasedOnBackground = (backgroundColor) => {
-  const rgb = parseInt(backgroundColor.substring(1), 16);
-  const r = (rgb >> 16) & 0xff;
-  const g = (rgb >> 8) & 0xff;
-  const b = (rgb >> 0) & 0xff;
-  const luminance = 0.299 * r + 0.587 * g + 0.114 * b;
-  return luminance > 128 ? "dark" : "light";
-};
-
 const API = axios.create({ baseURL: "http://localhost:5000" });
-
-API.interceptors.request.use((req) => {
-  if (localStorage.getItem("Profile")) {
-    req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem("Profile")).token}`;
-  }
-  return req;
-});
 
 export const logIn = (authData) => API.post("/user/login", authData);
 export const signUp = (authData) => API.post("/user/signup", authData);
 
 // New function for forgot password
 export const forgotPassword = (email) => API.post("/user/forgotpassword", { email: email });
-
 
 // New function for reset password
 export const resetPassword = (token, newPassword) => API.post(`/user/resetpassword/${token}`, { newPassword: newPassword });
@@ -62,11 +45,7 @@ export const fetchUserDataWithWeather = async (userId) => {
       userResponse.data.latitude,
       userResponse.data.longitude
     );
-
-    const textColor = getTextColorBasedOnBackground(weatherResponse.current.condition.rgb);
-    
-
-    return { user: userResponse.data, weather: weatherResponse, textColor };
+    return { user: userResponse.data, weather: weatherResponse };
   } catch (error) {
     console.error("Error fetching user data with weather:", error);
     throw error;
@@ -75,5 +54,9 @@ export const fetchUserDataWithWeather = async (userId) => {
 
 // New function for reset password email
 export const sendResetEmail = (email) => API.post("/user/send-reset-email", { email });
+
+export const uploadContent = (contentData) => API.post("/content/upload", contentData);
+export const fetchContent = () => API.get("/content/fetch");
+
 
 export default API;
